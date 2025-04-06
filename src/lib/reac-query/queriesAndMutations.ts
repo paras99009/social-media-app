@@ -162,11 +162,11 @@ export const useDeletePost = ()=>{
 
     return useMutation({
         mutationFn: ({postId,imageId}: {postId:string, imageId: string} )=> deletePost(postId,imageId),
-        onSuccess: (data)=>{
-            queryClient.invalidateQueries({
-                queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
-            });
-        }
+        onSuccess: (_data) => { // ESLint ignores variables prefixed with _
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+          });
+        },
         
     })
 }

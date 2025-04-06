@@ -17,10 +17,9 @@ function SearchResults({isSearchFetching,searchedPosts}: SearchResultsProps) {
     )
   }
 
-  if( searchedPosts&&  searchedPosts.documents.length > 0) {
-    return( <GridPostList posts={searchedPosts.documents} />)
+  if (searchedPosts.length > 0) { 
+    return <GridPostList post={searchedPosts} /> 
   }
-
   return (
     <p className='text-light-4 mt-10 w-full '> 
       No results found

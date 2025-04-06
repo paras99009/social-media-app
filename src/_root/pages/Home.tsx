@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Loader from '../../components/ui/Shared/Loader'
 import { useGetRecentPosts, useGetUsers } from '@/lib/reac-query/queriesAndMutations';
 import { Models } from 'appwrite';

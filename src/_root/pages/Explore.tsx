@@ -10,16 +10,17 @@ import { Input } from "@/components/ui/input";
 
 
 
-export type SearchResultProps = {
+
+export type SearchResultsProps = {
   isSearchFetching: boolean;
-  searchedPosts: any;
+  searchedPosts: any 
 };
 
-const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) => {
+const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultsProps) => {
   if (isSearchFetching) {
     return <Loader />;
   } else if (searchedPosts && searchedPosts.documents.length > 0) {
-    return <GridPostList posts={searchedPosts.documents} />;
+    return <GridPostList post={searchedPosts.documents} />;
   } else {
     return (
       <p className="text-light-4 mt-10 text-center w-full">No results found</p>
@@ -100,7 +101,7 @@ const Explore = () => {
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
           posts.pages.map((item, index) => (
-            <GridPostList key={`page-${index}`} posts={item.documents} />
+            <GridPostList key={`page-${index}`} post={item.documents} />
           ))
         )}
       </div>

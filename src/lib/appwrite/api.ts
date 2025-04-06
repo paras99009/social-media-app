@@ -1,4 +1,4 @@
-import { useGetRecentPosts } from '@/lib/reac-query/queriesAndMutations';
+
 import { ID, Query } from "appwrite";
 
 import { appwriteConfig, account, databases, avatars, storage } from "./config";
@@ -203,6 +203,8 @@ export async function uploadFile(file: File) {
 }
 
 // ============================== GET FILE URL
+import { ImageGravity } from "appwrite"; // Import the enum
+
 export function getFilePreview(fileId: string) {
   try {
     const fileUrl = storage.getFilePreview(
@@ -210,11 +212,11 @@ export function getFilePreview(fileId: string) {
       fileId,
       2000,
       2000,
-      "top",
+      ImageGravity.Top, // Use enum value instead of string
       100
     );
 
-    if (!fileUrl) throw Error;
+    if (!fileUrl) throw new Error("File preview URL not found");
 
     return fileUrl;
   } catch (error) {
@@ -325,66 +327,61 @@ export async function getPostById(postId:string){
 
 }
 
+import { URL } from "url"; // Ensure URL is recognized
+
 export async function updatePost(post: IUpdatePost) {
   const hasFileToUpdate = post.file.length > 0;
 
   try {
     let image = {
-      imageUrl: post.imageUrl,
+      imageUrl: new URL(post.imageUrl), // Convert to URL
       imageId: post.imageId,
     };
 
     if (hasFileToUpdate) {
-      // Upload new file to appwrite storage
+      // Upload new file to Appwrite storage
       const uploadedFile = await uploadFile(post.file[0]);
-      if (!uploadedFile) throw Error;
+      if (!uploadedFile) throw new Error("File upload failed");
 
-      // Get new file url
+      // Get new file URL
       const fileUrl = getFilePreview(uploadedFile.$id);
       if (!fileUrl) {
         await deleteFile(uploadedFile.$id);
-        throw Error;
+        throw new Error("Failed to retrieve file URL");
       }
 
-      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
+      image = { ...image, imageUrl: new URL(fileUrl), imageId: uploadedFile.$id };
     }
 
-    // Convert tags into array
+    // Convert tags into an array
     const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
-    //  Update post
+    // Update post
     const updatedPost = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
       post.postId,
       {
         caption: post.caption,
-        imageUrl: image.imageUrl,
+        imageUrl: image.imageUrl.toString(), // Store as string in DB
         imageId: image.imageId,
         location: post.location,
         tags: tags,
       }
     );
 
-    // Failed to update
+    // Handle update failure
     if (!updatedPost) {
-      // Delete new file that has been recently uploaded
-      if (hasFileToUpdate) {
-        await deleteFile(image.imageId);
-      }
-
-      // If no new file uploaded, just throw error
-      throw Error;
+      if (hasFileToUpdate) await deleteFile(image.imageId);
+      throw new Error("Failed to update post");
     }
 
-    // Safely delete old file after successful update
-    if (hasFileToUpdate) {
-      await deleteFile(post.imageId);
-    }
+    // Delete old file after successful update
+    if (hasFileToUpdate) await deleteFile(post.imageId);
 
     return updatedPost;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 

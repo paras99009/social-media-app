@@ -2,7 +2,7 @@
 import BottomBar from '@/components/ui/Shared/BottomBar'
 import LeftSideBar from '@/components/ui/Shared/LeftSideBar'
 import Topbar from '@/components/ui/Shared/Topbar'
-import React from 'react'
+
 import { Outlet } from 'react-router-dom'
 
 

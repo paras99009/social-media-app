@@ -1,6 +1,5 @@
 import { useUserContext } from '@/context/AuthContext';
 import { Models } from 'appwrite';
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Poststats from './Poststats';
 
@@ -12,13 +11,13 @@ type GridPostListProps={
 
 }
 
-function GridPostList({posts , showUser=true , showStats= true} : GridPostListProps) {
+function GridPostList({post , showUser=true , showStats= true} : GridPostListProps) {
 
     const {user} = useUserContext();
 
   return (
     <ul className='grid-container'>
-      {posts.map((post)=>{
+      {post.map((post)=>{
         return (
           <li key={post.$id} className='relative min-w-80 h-80'>
             <Link to={`/posts/${post.$id}`} className='grid-post_link'>
