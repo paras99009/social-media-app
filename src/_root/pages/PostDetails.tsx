@@ -4,7 +4,6 @@ import { useUserContext } from '@/context/AuthContext'
 import { useDeletePost, useGetPostById } from '@/lib/reac-query/queriesAndMutations'
 import { multiFormatDateString } from '@/lib/utils'
 import { Loader } from 'lucide-react'
-import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 const PostDetails = () => {
