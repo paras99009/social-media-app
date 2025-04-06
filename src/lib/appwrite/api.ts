@@ -5,6 +5,7 @@ import { appwriteConfig, account, databases, avatars, storage } from "./config";
 import {   INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 
 
+
 // ============================================================
 // AUTH
 // ============================================================
@@ -327,7 +328,7 @@ export async function getPostById(postId:string){
 
 }
 
-import { URL } from "url"; // Ensure URL is recognized
+
 
 export async function updatePost(post: IUpdatePost) {
   const hasFileToUpdate = post.file.length > 0;
