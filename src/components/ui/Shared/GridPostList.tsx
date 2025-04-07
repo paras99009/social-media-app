@@ -15,6 +15,8 @@ function GridPostList({post , showUser=true , showStats= true} : GridPostListPro
 
     const {user} = useUserContext();
 
+   
+
   return (
     <ul className='grid-container'>
       {post.map((post)=>{
@@ -27,8 +29,8 @@ function GridPostList({post , showUser=true , showStats= true} : GridPostListPro
             <div className='grid-post_user'>
               {showUser  && (
                 <div className='flex items-center justify-start gap-2 flex-1'>
-                  <img src={post.creator.imageUrl}   className='rounded-full h-8 w-8' alt="creator-icon" />
-                  <p className='line-clamp-1'>{post.creator.name}</p>
+                  <img src={post.creator?.imageUrl}   className='rounded-full h-8 w-8' alt="creator-icon" />
+                  <p className='line-clamp-1'>{post.creator?.name}</p>
 
                 </div>
               )}
