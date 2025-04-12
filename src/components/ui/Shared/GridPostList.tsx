@@ -20,11 +20,19 @@ function GridPostList({post , showUser=true , showStats= true} : GridPostListPro
   return (
     <ul className='grid-container'>
       {post.map((post)=>{
+
+        if (!post?.imageUrl) return null; // Skip if imageUrl is not present
         return (
           <li key={post.$id} className='relative min-w-80 h-80'>
             <Link to={`/posts/${post.$id}`} className='grid-post_link'>
-            <img src={post.imageUrl.replace('preview', 'view')} alt="post-image"
-            className='h-full w-full object-cover'  />
+          
+        <img
+          src={post.imageUrl.replace('preview', 'view')}
+          alt='post-image'
+          className='h-full w-full object-cover'
+          key={post.$id}
+        />
+      
             </Link>
             <div className='grid-post_user'>
               {showUser  && (

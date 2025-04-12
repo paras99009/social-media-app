@@ -27,13 +27,13 @@ function Poststats({ post,userId }: PostStatsProps) {
 
     const { data : currentUser } = useGetCurrentUser();
     const savedPostRecord = currentUser?.save.find(
-        (record: Models.Document) => record.post.$id === post?.$id
+        (record: Models.Document) => record.post?.$id === post?.$id
       );
      
       useEffect(() => {
         if (currentUser) {
             const savedPostRecord = currentUser?.save.find(
-                (record: Models.Document) => record.post.$id === post?.$id
+                (record: Models.Document) => record.post?.$id === post?.$id
             );
             setIsSaved(!!savedPostRecord);  // Ensure it's set based on actual saved status
         }
